@@ -1,0 +1,39 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny" : false,
+    "noImplicitThis": false,
+    "lib": [ "es6" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "es6",
+    "outDir": "dist/",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "js",
+    "dist",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/**/*.tbd.ts"
+  ],
+  "outFiles": "js/**/*.js",
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}
