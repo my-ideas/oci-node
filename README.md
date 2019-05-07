@@ -1,13 +1,15 @@
 Implemented methods:
 
 **CORE**
-- GetInstance
-- ListInstances
+
+- GetInstance  
+- ListInstances  
 - InstanceAction
 - ListVnicAttachments
 - GetVnic
 
 **IAM**
+
 - ListCompartments
 
 
