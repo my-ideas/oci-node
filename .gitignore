@@ -1,3 +1,4 @@
 test/data/testData.json
 dist
 node_modules
+.nyc_output
