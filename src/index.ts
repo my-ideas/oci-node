@@ -102,8 +102,8 @@ export class Client {
         }
     }
     IAM = {
-        ListCompartments: (): Promise<Compartment> => {
-            return this.doRequest('GET', `identity.${this.config.zone}.oraclecloud.com`, `/20160918/compartments?compartmentId=${this.config.tenantID}&compartmentIdInSubtree=true&accessLevel=ACCESSIBLE`) as Promise<Compartment>
+        ListCompartments: (): Promise<Compartment[]> => {
+            return this.doRequest('GET', `identity.${this.config.zone}.oraclecloud.com`, `/20160918/compartments?compartmentId=${this.config.tenantID}&compartmentIdInSubtree=true&accessLevel=ACCESSIBLE`) as Promise<Compartment[]>
         }
     }
 };

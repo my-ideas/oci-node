@@ -15,13 +15,12 @@ const testVnicId = config.testInstance.vnicId
 
 describe('Core', () => {
     it('should get the instance', async () => {
-        const response = await client.Core.GetInstance(testInstanceId)
-        expect(response.code).to.not.equal('NotAuthorizedOrNotFound')
-        return new Promise(r => r())
+        const instance = await client.Core.GetInstance(testInstanceId)
+        expect(instance.id).to.not.equal('')
     });
     it('should list instances', async () => {
-        const response = await client.Core.ListIntances(testCompartmentId)
-        expect(response.code).to.not.equal('NotAuthorizedOrNotFound')
+        const instances = await client.Core.ListIntances(testCompartmentId)
+        expect(instances.length).to.not.equal(0)
     })
     it.skip('should stop an instance', async () => {
         const response = await client.Core.InstanceAction(testInstanceId, 'SOFTSTOP')
