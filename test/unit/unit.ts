@@ -49,5 +49,3 @@ describe('IAM', () => {
         expect(response.length).to.not.equal(0)
     })
 })
-
-

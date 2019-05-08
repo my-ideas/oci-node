@@ -5,7 +5,7 @@ import * as jssha from 'jssha'
 import { VNIC, Instance, Compartment } from './models'
 
 export interface ClientConfig {
-    keyPath: string;
+    key: string;
     tenantID: string;
     userID: string;
     fingerprint: string;
@@ -19,7 +19,6 @@ export interface ClientConfig {
 }
 
 export class Client {
-    private key: string
     private keyId: string
     private config: ClientConfig
     constructor(config: ClientConfig) {
@@ -31,24 +30,8 @@ export class Client {
         ].join('/')
 
     }
-    private init(): Promise<void> {
-        return new Promise(resolve => {
-            if (typeof this.key !== 'undefined') {
-                return resolve()
-            }
-            // Read the key
-            readFile(this.config.keyPath, (err, data) => {
-                if (err) {
-                    throw new Error(err.message);
-                }
-                this.key = data.toString();
-                resolve()
-            })
-        })
-    }
     private doRequest(method: string, host: string, path: string, data?: any) {
         return new Promise(async resolve => {
-            await this.init();
             const options: https.RequestOptions = {
                 host,
                 method,
@@ -77,7 +60,7 @@ export class Client {
                 ])
             }
             httpSignature.sign(request, {
-                key: this.key,
+                key: this.config.key,
                 keyId: this.keyId,
                 headers: headersToSign
             })

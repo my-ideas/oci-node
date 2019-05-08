@@ -24,7 +24,7 @@ To test the API, create a `test/data/testData.json` file populated with the foll
         "fingerprint": "66:7yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
         "tenantID": "ocid1.tenaxxxxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
         "zone": "eu-frankfurt-1",
-        "keyPath": "/path/to/oci_api_key.pem"
+        "key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA6bszZa1Hx7w5wvNSdFRh0un6l0+I8/5LZiEH0yrZ8JEDvpeD\n213slz...........xxxxxx"
     },
     "testInstance": {
         "compartmentId": "ocid1.compartment.oc1..qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
