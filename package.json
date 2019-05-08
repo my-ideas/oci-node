@@ -1,5 +1,5 @@
 {
-  "name": "oci-node",
+  "name": "@my-ideas/oci-node",
   "version": "0.1.0",
   "description": "A NodeJS wrapper for the Oracle Cloud Infrastructure API",
   "main": "dist/index.js",
