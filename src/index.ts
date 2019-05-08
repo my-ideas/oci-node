@@ -88,7 +88,7 @@ export class Client {
         GetInstance: (id: string): Promise<Instance> => {
             return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances/${id}`) as Promise<Instance>
         },
-        ListIntances: (compartmentId: string): Promise<Instance[]> => {
+        ListInstances: (compartmentId: string): Promise<Instance[]> => {
             return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances?compartmentId=${compartmentId}`) as Promise<Instance[]>
         },
         InstanceAction: (id: string, action: 'STOP' | 'START' | 'SOFTRESET' | 'RESET' | 'SOFTSTOP'): Promise<Instance> => {

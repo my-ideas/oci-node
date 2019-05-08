@@ -12,15 +12,15 @@ export declare class Client {
     private config;
     constructor(config: ClientConfig);
     private init;
-    doRequest(method: string, host: string, path: string, data?: any): Promise<{}>;
+    private doRequest;
     Core: {
         GetInstance: (id: string) => Promise<Instance>;
-        ListIntances: (compartmentId: string) => Promise<Instance[]>;
+        ListInstances: (compartmentId: string) => Promise<Instance[]>;
         InstanceAction: (id: string, action: "STOP" | "START" | "SOFTRESET" | "RESET" | "SOFTSTOP") => Promise<Instance>;
         ListVnicAttachments: (compartmentId: string, instanceId?: string | undefined) => Promise<VNIC[]>;
         GetVnic: (vnicId: string) => Promise<VNIC>;
     };
     IAM: {
-        ListCompartments: () => Promise<Compartment>;
+        ListCompartments: () => Promise<Compartment[]>;
     };
 }

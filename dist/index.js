@@ -18,7 +18,7 @@ class Client {
             GetInstance: (id) => {
                 return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances/${id}`);
             },
-            ListIntances: (compartmentId) => {
+            ListInstances: (compartmentId) => {
                 return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances?compartmentId=${compartmentId}`);
             },
             InstanceAction: (id, action) => {

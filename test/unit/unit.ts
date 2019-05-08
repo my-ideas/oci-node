@@ -19,7 +19,7 @@ describe('Core', () => {
         expect(instance.id).to.not.equal('')
     });
     it('should list instances', async () => {
-        const instances = await client.Core.ListIntances(testCompartmentId)
+        const instances = await client.Core.ListInstances(testCompartmentId)
         expect(instances.length).to.not.equal(0)
     })
     it.skip('should stop an instance', async () => {
