@@ -46,7 +46,7 @@ export class Client {
             })
         })
     }
-    doRequest(method: string, host: string, path: string, data?: any) {
+    private doRequest(method: string, host: string, path: string, data?: any) {
         return new Promise(async resolve => {
             await this.init();
             const options: https.RequestOptions = {
