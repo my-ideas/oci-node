@@ -46,6 +46,8 @@ export interface Compartment {
     freeformTags?: any
     definedTags?: any
 }
+// InstanceState
+export type InstanceState = 'PROVISIONING' | 'RUNNING' | 'STARTING' | 'STOPPING' | 'STOPPED' | 'CREATING_IMAGE' | 'TERMINATING' | 'TERMINATED'
 // https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/Instance
 export interface Instance {
     availabilityDomain: string
@@ -60,7 +62,7 @@ export interface Instance {
     ipxeScript?: string
     launchMode?: 'NATIVE' | 'EMULATED' | 'CUSTOM'
     launchOptions?: LaunchOptions
-    lifecycleState: 'PROVISIONING' | 'RUNNING' | 'STARTING' | 'STOPPING' | 'STOPPED' | 'CREATING_IMAGE' | 'TERMINATING' | 'TERMINATED'
+    lifecycleState: InstanceState
     metadata?: any
     region: string
     shape: string

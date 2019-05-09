@@ -2,7 +2,8 @@ import { readFile } from 'fs';
 import * as https from 'https';
 import * as httpSignature from 'http-signature'
 import * as jssha from 'jssha'
-import { VNIC, Instance, Compartment } from './models'
+import * as backoff from 'backoff'
+import { VNIC, Instance, Compartment, InstanceState } from './models'
 
 export interface ClientConfig {
     key: string;
@@ -66,6 +67,31 @@ export class Client {
             })
             request.end()
         })
+    }
+    util = {
+        waitForInstanceState: (instanceId: string, state: InstanceState): Promise<Instance> => {
+            return new Promise<Instance>((resolve, reject) => {
+                let lastSeen: InstanceState
+                const exponential = backoff.exponential({
+                    initialDelay: 100,
+                    maxDelay: 1000
+                })
+                exponential.failAfter(50)
+                exponential.on('ready', async () => {
+                    const instance = await this.Core.GetInstance(instanceId)
+                    lastSeen = instance.lifecycleState
+                    if (instance.lifecycleState !== state) {
+                        return exponential.backoff()
+                    }
+                    exponential.reset()
+                    resolve(instance)
+                })
+                exponential.on('fail', () => {
+                    reject(`instance not in desired state: "${state}", last seen state: "${lastSeen}"`)
+                })
+                exponential.backoff()
+            })
+        }
     }
     Core = {
         GetInstance: (id: string): Promise<Instance> => {
