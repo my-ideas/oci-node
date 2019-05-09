@@ -3,7 +3,7 @@ import * as https from 'https';
 import * as httpSignature from 'http-signature'
 import * as jssha from 'jssha'
 import * as backoff from 'backoff'
-import { VNIC, Instance, Compartment, InstanceState } from './models'
+import { VNIC, Instance, Compartment, InstanceState, VNICAttachment } from './models'
 
 export interface ClientConfig {
     key: string;
@@ -32,7 +32,7 @@ export class Client {
 
     }
     private doRequest(method: string, host: string, path: string, data?: any) {
-        return new Promise(async resolve => {
+        return new Promise(async (resolve, reject) => {
             const options: https.RequestOptions = {
                 host,
                 method,
@@ -41,8 +41,15 @@ export class Client {
             const request = https.request(options, res => {
                 let body = ''
                 res.on('data', chunk => body += chunk)
-                res.on('end', () => {
-                    resolve(JSON.parse(body))
+                res.on('close', () => {
+                    const response = JSON.parse(body);
+                    if (res.statusCode !== 200) {
+                        return reject(response)
+                    }
+                    resolve(response)
+                })
+                res.on('error', err => {
+                    reject(err);
                 })
             })
             // Signign process
@@ -103,8 +110,8 @@ export class Client {
         InstanceAction: (id: string, action: 'STOP' | 'START' | 'SOFTRESET' | 'RESET' | 'SOFTSTOP'): Promise<Instance> => {
             return this.doRequest('POST', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances/${id}?action=${action}`) as Promise<Instance>
         },
-        ListVnicAttachments: (compartmentId: string, instanceId?: string): Promise<VNIC[]> => {
-            return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/vnicAttachments?compartmentId=${compartmentId}&instanceId=${instanceId || ''}`) as Promise<VNIC[]>
+        ListVnicAttachments: (compartmentId: string, instanceId?: string): Promise<VNICAttachment[]> => {
+            return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/vnicAttachments?compartmentId=${compartmentId}&instanceId=${instanceId || ''}`) as Promise<VNICAttachment[]>
         },
         GetVnic: (vnicId: string): Promise<VNIC> => {
             return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/vnics/${vnicId}`) as Promise<VNIC>

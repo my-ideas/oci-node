@@ -16,6 +16,20 @@ export interface VNIC {
     subnetId: string
     timeCreated?: string
 }
+// https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/VnicAttachment/
+export interface VNICAttachment {
+    availabilityDomain: string
+    compartmentId: string
+    displayName?: string;
+    id: string;
+    instanceId: string;
+    lifecycleState: 'ATTACHING' | 'ATTACHED' | 'DETACHING' | 'DETACHED'
+    nicIndex?: number;
+    subnetId: string;
+    timeCreated: string;
+    vlanTag?: number;
+    vncId?: string;
+}
 // https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchOptions
 export interface LaunchOptions {
     bootVolumeType: 'ISCSI' | 'SCSI' | 'IDE' | 'VFIO' | 'PARAVIRTUALIZED'
