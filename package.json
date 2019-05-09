@@ -1,6 +1,6 @@
 {
     "name": "@my-ideas/oci-node",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "A NodeJS wrapper for the Oracle Cloud Infrastructure API",
     "main": "dist/index.js",
     "scripts": {
@@ -12,6 +12,7 @@
     "license": "ISC",
     "dependencies": {
         "@types/jssha": "^2.0.0",
+        "backoff": "^2.5.0",
         "http-signature": "^1.2.0",
         "jssha": "^2.3.1",
         "request": "^2.88.0"
