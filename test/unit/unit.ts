@@ -49,3 +49,11 @@ describe('IAM', () => {
         expect(response.length).to.not.equal(0)
     })
 })
+
+describe('Errors', () => {
+    it('should return an error', done => {
+        client.Core.GetInstance('i.do.not.exist').then(done).catch(err => {
+            expect(err.code).to.equal('NotAuthorizedOrNotFound')
+        }).then(done).catch(done)
+    })
+})

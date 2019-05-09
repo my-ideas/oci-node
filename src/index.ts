@@ -32,7 +32,7 @@ export class Client {
 
     }
     private doRequest(method: string, host: string, path: string, data?: any) {
-        return new Promise(async resolve => {
+        return new Promise(async (resolve, reject) => {
             const options: https.RequestOptions = {
                 host,
                 method,
@@ -41,8 +41,15 @@ export class Client {
             const request = https.request(options, res => {
                 let body = ''
                 res.on('data', chunk => body += chunk)
-                res.on('end', () => {
-                    resolve(JSON.parse(body))
+                res.on('close', () => {
+                    const response = JSON.parse(body);
+                    if (res.statusCode !== 200) {
+                        return reject(response)
+                    }
+                    resolve(response)
+                })
+                res.on('error', err => {
+                    reject(err);
                 })
             })
             // Signign process
