@@ -28,7 +28,7 @@ export interface VNICAttachment {
     subnetId: string;
     timeCreated: string;
     vlanTag?: number;
-    vncId?: string;
+    vnicId?: string;
 }
 // https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/datatypes/LaunchOptions
 export interface LaunchOptions {
