@@ -1,9 +1,10 @@
-import { readFile } from 'fs';
+import * as qs from 'querystring';
 import * as https from 'https';
 import * as httpSignature from 'http-signature'
 import * as jssha from 'jssha'
 import * as backoff from 'backoff'
-import { VNIC, Instance, Compartment, InstanceState, VNICAttachment } from './models'
+import { VNIC, Instance, Compartment, InstanceState, VNICAttachment, ListInstancesParameters, Parameters } from './models'
+import { stringifyParams } from './util';
 
 export interface ClientConfig {
     key: string;
@@ -31,7 +32,8 @@ export class Client {
         ].join('/')
 
     }
-    private doRequest(method: string, host: string, path: string, data?: any) {
+    private doRequest(method: string, host: string, path: string) {
+        let data = ''
         return new Promise(async (resolve, reject) => {
             const options: https.RequestOptions = {
                 host,
@@ -104,8 +106,12 @@ export class Client {
         GetInstance: (id: string): Promise<Instance> => {
             return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances/${id}`) as Promise<Instance>
         },
-        ListInstances: (compartmentId: string): Promise<Instance[]> => {
-            return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances?compartmentId=${compartmentId}`) as Promise<Instance[]>
+        ListInstances: (compartmentId: string, params?: ListInstancesParameters): Promise<Instance[]> => {
+            let path = `/20160918/instances?compartmentId=${compartmentId}`
+            if (typeof params !== 'undefined') {
+                path += '&' + stringifyParams(params)
+            }
+            return this.doRequest('GET', `iaas.${this.config.zone}.oraclecloud.com`, path) as Promise<Instance[]>
         },
         InstanceAction: (id: string, action: 'STOP' | 'START' | 'SOFTRESET' | 'RESET' | 'SOFTSTOP'): Promise<Instance> => {
             return this.doRequest('POST', `iaas.${this.config.zone}.oraclecloud.com`, `/20160918/instances/${id}?action=${action}`) as Promise<Instance>

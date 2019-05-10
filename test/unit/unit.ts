@@ -22,6 +22,12 @@ describe('Core', () => {
         const instances = await client.Core.ListInstances(testCompartmentId)
         expect(instances.length).to.not.equal(0)
     })
+    it('should list instances with an unexisting name', async () => {
+        const instances = await client.Core.ListInstances(testCompartmentId, {
+            displayName: 'wish.i.existed.tho'
+        })
+        expect(instances.length).to.equal(0)
+    })
     it.skip('should stop an instance', async () => {
         const response = await client.Core.InstanceAction(testInstanceId, 'SOFTSTOP')
     })
