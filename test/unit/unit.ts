@@ -57,3 +57,17 @@ describe('Errors', () => {
         }).then(done).catch(done)
     })
 })
+
+describe.skip('Util', function () {
+    this.timeout(120 * 1000)
+    it('should wait for the instance to be started', async () => {
+        await client.Core.InstanceAction(testInstanceId, 'START');
+        await client.util.waitForInstanceState(testInstanceId, 'RUNNING')
+        // Just wait some time before issueing a new command
+        await (() => new Promise(r => setTimeout(r, 5000)))()
+    })
+    it('should wait for the instance to be stopped', async () => {
+        await client.Core.InstanceAction(testInstanceId, 'SOFTSTOP');
+        await client.util.waitForInstanceState(testInstanceId, 'STOPPED')
+    })
+})
