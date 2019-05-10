@@ -80,8 +80,8 @@ export class Client {
             return new Promise<Instance>((resolve, reject) => {
                 let lastSeen: InstanceState
                 const exponential = backoff.exponential({
-                    initialDelay: 100,
-                    maxDelay: 1000
+                    initialDelay: 500,
+                    maxDelay: 2000
                 })
                 exponential.failAfter(50)
                 exponential.on('ready', async () => {
