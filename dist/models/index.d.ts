@@ -41,6 +41,7 @@ export interface Compartment {
     freeformTags?: any;
     definedTags?: any;
 }
+export declare type InstanceState = 'PROVISIONING' | 'RUNNING' | 'STARTING' | 'STOPPING' | 'STOPPED' | 'CREATING_IMAGE' | 'TERMINATING' | 'TERMINATED';
 export interface Instance {
     availabilityDomain: string;
     compartmentId: string;
@@ -54,7 +55,7 @@ export interface Instance {
     ipxeScript?: string;
     launchMode?: 'NATIVE' | 'EMULATED' | 'CUSTOM';
     launchOptions?: LaunchOptions;
-    lifecycleState: 'PROVISIONING' | 'RUNNING' | 'STARTING' | 'STOPPING' | 'STOPPED' | 'CREATING_IMAGE' | 'TERMINATING' | 'TERMINATED';
+    lifecycleState: InstanceState;
     metadata?: any;
     region: string;
     shape: string;

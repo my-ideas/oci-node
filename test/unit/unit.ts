@@ -22,6 +22,12 @@ describe('Core', () => {
         const instances = await client.Core.ListInstances(testCompartmentId)
         expect(instances.length).to.not.equal(0)
     })
+    it('should list instances with an unexisting name', async () => {
+        const instances = await client.Core.ListInstances(testCompartmentId, {
+            displayName: 'wish.i.existed.tho'
+        })
+        expect(instances.length).to.equal(0)
+    })
     it.skip('should stop an instance', async () => {
         const response = await client.Core.InstanceAction(testInstanceId, 'SOFTSTOP')
     })
@@ -55,5 +61,19 @@ describe('Errors', () => {
         client.Core.GetInstance('i.do.not.exist').then(done).catch(err => {
             expect(err.code).to.equal('NotAuthorizedOrNotFound')
         }).then(done).catch(done)
+    })
+})
+
+describe.skip('Util', function () {
+    this.timeout(120 * 1000)
+    it('should wait for the instance to be started', async () => {
+        await client.Core.InstanceAction(testInstanceId, 'START');
+        await client.util.waitForInstanceState(testInstanceId, 'RUNNING')
+        // Just wait some time before issueing a new command
+        await (() => new Promise(r => setTimeout(r, 5000)))()
+    })
+    it('should wait for the instance to be stopped', async () => {
+        await client.Core.InstanceAction(testInstanceId, 'SOFTSTOP');
+        await client.util.waitForInstanceState(testInstanceId, 'STOPPED')
     })
 })
